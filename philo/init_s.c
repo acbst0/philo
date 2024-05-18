@@ -26,10 +26,13 @@ void add_details(philo_t *new, forks_t *new_fork)
 
 void add_philo(philo_t **head, char *av[])
 {
-    philo_t *tmp = *head;
-    philo_t *new = (philo_t *)malloc(sizeof(philo_t));
-    forks_t *new_fork = (forks_t *)malloc(sizeof(forks_t));
+    philo_t *tmp;
+    philo_t *new;
+    forks_t *new_fork;
 
+	tmp = *head;
+	new_fork = (forks_t *)malloc(sizeof(forks_t));
+	new = (philo_t *)malloc(sizeof(philo_t));
     if (!new || !new_fork)
 	{
         fprintf(stderr, "Memory allocation failed\n");

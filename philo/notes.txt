@@ -1,0 +1,30 @@
+struct timeval current_time;
+
+gettimeofday(&current_time, NULL);
+
+printf("Geçerli Zaman: %ld", current_time.tv_sec);
+
+
+
+------------------------------------------------------
+
+int main(int ac, char *av[]) {
+    philo_t *head;
+    rules rul;
+
+    if (ac == 5 || ac == 6) {
+        head = init_philo(av, &rul);
+        philo_t *current = head;
+        while (current->number < 5) {
+            printf("%d", current->number);
+			printf(" i have fork %d on my right and fork %d on my left\n", current->right->fork_number, current->left->fork_number);
+			if (current->number == 4)
+				break;
+            current = current->next;
+        }
+    } else {
+        fprintf(stderr, "Usage: ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
+    }
+
+    return 0;
+}

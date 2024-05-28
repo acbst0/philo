@@ -6,7 +6,7 @@
 /*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:09:37 by abostano          #+#    #+#             */
-/*   Updated: 2024/05/23 12:01:33 by abostano         ###   ########.fr       */
+/*   Updated: 2024/05/28 12:08:52 by abostano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	}
 	else
 	{
-		fprintf(stderr, "ERR\n");
+		ft_error(ERR_NOF);
 	}
 	return (0);
 }

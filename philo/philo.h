@@ -6,7 +6,7 @@
 /*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:15:36 by abostano          #+#    #+#             */
-/*   Updated: 2024/05/23 11:18:30 by abostano         ###   ########.fr       */
+/*   Updated: 2024/05/28 12:14:19 by abostano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <stdio.h>
+
+# define ERR_NOF "Philo needs 4 or 5 int\n"
 
 typedef struct rules
 {
@@ -37,6 +39,7 @@ typedef struct forks_s
 
 typedef struct philo_s
 {
+	pthread_t		thread;
 	size_t			number;
 	int				last_eat;
 	int				last_thinking;
@@ -49,6 +52,8 @@ typedef struct philo_s
 
 //utils
 int		ft_atoi(const char *str);
+void	ft_error(char *str);
+void	free_philo_fork(t_philo *head);
 //init
 void	add_details(t_philo *new, t_forks *new_fork);
 void	add_philo(t_philo **head);

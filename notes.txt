@@ -9,14 +9,14 @@ printf("Geçerli Zaman: %ld", current_time.tv_sec);
 ------------------------------------------------------
 
 int main(int ac, char *av[]) {
-    philo_t *head;
-    rules rul;
+    t_philo *head;
+    t_rules rul;
 
     if (ac == 5 || ac == 6) {
         head = init_philo(av, &rul);
-        philo_t *current = head;
+        t_philo *current = head;
         while (current->number < 5) {
-            printf("%d", current->number);
+            printf("%zu", current->number);
 			printf(" i have fork %d on my right and fork %d on my left\n", current->right->fork_number, current->left->fork_number);
 			if (current->number == 4)
 				break;
@@ -28,3 +28,5 @@ int main(int ac, char *av[]) {
 
     return 0;
 }
+
+------------------------------------------------------

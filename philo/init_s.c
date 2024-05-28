@@ -1,76 +1,86 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_s.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/20 13:04:13 by abostano          #+#    #+#             */
+/*   Updated: 2024/05/23 12:01:50 by abostano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-void add_details(philo_t *new, forks_t *new_fork)
+void	add_details(t_philo *new, t_forks *new_fork)
 {
-    if (new->prev == NULL)
+	if (new->prev == NULL)
 	{
-        new->number = 1;
-        new->left = NULL;
-        new_fork->prev = NULL;
-    }
+		new->number = 1;
+		new->left = NULL;
+		new_fork->prev = NULL;
+	}
 	else
 	{
-        new->number = new->prev->number + 1;
-        new->left = new->prev->right;
-        new->prev->right->next = new_fork;
-        new_fork->prev = new->prev->right;
-    }
-    new_fork->fork_number = new->number;
-    new_fork->status = 1;
-    new_fork->next = NULL;
-    new->last_eat = 0;
-    new->last_thinking = 0;
-    new->last_sleep = 0;
-    new->next = NULL;
+		new->number = new->prev->number + 1;
+		new->left = new->prev->right;
+		new->prev->right->next = new_fork;
+		new_fork->prev = new->prev->right;
+	}
+	new_fork->fork_number = new->number;
+	new_fork->status = 1;
+	new_fork->next = NULL;
+	new->last_eat = 0;
+	new->last_thinking = 0;
+	new->last_sleep = 0;
+	new->next = NULL;
 }
 
-void add_philo(philo_t **head, char *av[])
+void	add_philo(t_philo **head)
 {
-    philo_t *tmp;
-    philo_t *new;
-    forks_t *new_fork;
+	t_philo	*tmp;
+	t_philo	*new;
+	t_forks	*new_fork;
 
 	tmp = *head;
-	new_fork = (forks_t *)malloc(sizeof(forks_t));
-	new = (philo_t *)malloc(sizeof(philo_t));
-    if (!new || !new_fork)
+	new_fork = (t_forks *)malloc(sizeof(t_forks));
+	new = (t_philo *)malloc(sizeof(t_philo));
+	if (!new || !new_fork)
 	{
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(1);
-    }
-
-    new->right = new_fork;
-
-    if (tmp == NULL)
+		fprintf(stderr, "Memory allocation failed\n");
+		exit(1);
+	}
+	new->right = new_fork;
+	if (tmp == NULL)
 	{
-        *head = new;
-        new->prev = NULL;
-    }
+		*head = new;
+		new->prev = NULL;
+	}
 	else
 	{
-        while (tmp->next)
-            tmp = tmp->next;
-        tmp->next = new;
-        new->prev = tmp;
-    }
-    add_details(new, new_fork);
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+		new->prev = tmp;
+	}
+	add_details(new, new_fork);
 }
 
-void set_rules(char **av, rules *rul)
+void	set_rules(char **av, t_rules *rul)
 {
-    rul->time_to_die = ft_atoi(av[2]);
-    rul->time_to_eat = ft_atoi(av[3]);
-    rul->time_to_sleep = ft_atoi(av[4]);
-    if (av[5] == NULL)
-        rul->per_eat = -1; // NULL yerine -1 kullanmak daha güvenli
-    else
-        rul->per_eat = ft_atoi(av[5]);
+	rul->time_to_die = ft_atoi(av[2]);
+	rul->time_to_eat = ft_atoi(av[3]);
+	rul->time_to_sleep = ft_atoi(av[4]);
+	if (av[5] == NULL)
+		rul->per_eat = -1;
+	else
+		rul->per_eat = ft_atoi(av[5]);
 }
 
-void make_circle(philo_t **head)
+void	make_circle(t_philo **head)
 {
-	philo_t *first;
-	philo_t *last;
+	t_philo	*first;
+	t_philo	*last;
 
 	first = *head;
 	last = *head;
@@ -85,22 +95,21 @@ void make_circle(philo_t **head)
 	first->right->prev = first->left;
 }
 
-philo_t *init_philo(char **av, rules *rul)
+t_philo	*init_philo(char **av, t_rules *rul)
 {
-    int number_of;
-    int i;
-    philo_t *head;
+	int		number_of;
+	int		i;
+	t_philo	*head;
 
 	head = NULL;
 	i = 0;
-    number_of = ft_atoi(av[1]);
-    set_rules(av, rul);
-    
-    while (i < number_of)
+	number_of = ft_atoi(av[1]);
+	set_rules(av, rul);
+	while (i < number_of)
 	{
-        add_philo(&head, av);
+		add_philo(&head);
 		i++;
-    }
+	}
 	make_circle(&head);
-    return head;
+	return (head);
 }

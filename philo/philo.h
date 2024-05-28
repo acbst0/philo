@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/20 13:15:36 by abostano          #+#    #+#             */
+/*   Updated: 2024/05/23 11:18:30 by abostano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -11,37 +23,37 @@ typedef struct rules
 {
 	int	time_to_die;
 	int	time_to_eat;
-	int time_to_sleep;
+	int	time_to_sleep;
 	int	per_eat;
-}	rules;
+}	t_rules;
 
 typedef struct forks_s
 {
-	int	fork_number;
-	int	status;
-	struct fork_s	*next;
-	struct fork_s	*prev;
-}	forks_t;
+	int				fork_number;
+	int				status;
+	struct forks_s	*next;
+	struct forks_s	*prev;
+}	t_forks;
 
 typedef struct philo_s
 {
 	size_t			number;
-	int 			last_eat;
+	int				last_eat;
 	int				last_thinking;
-	int 			last_sleep;
-	forks_t			*left;
-	forks_t			*right;
+	int				last_sleep;
+	t_forks			*left;
+	t_forks			*right;
 	struct philo_s	*next;
-	struct philo_s 	*prev;
-}	philo_t;
+	struct philo_s	*prev;
+}	t_philo;
 
 //utils
-int	ft_atoi(const char *str);
+int		ft_atoi(const char *str);
 //init
-void	add_details(philo_t *new, forks_t *new_fork);
-void	add_philo(philo_t **head, char *av[]);
-void	set_rules(char **av, rules *rul);
-void	make_circle(philo_t **head);
-philo_t	*init_philo(char **av, rules *rul);
+void	add_details(t_philo *new, t_forks *new_fork);
+void	add_philo(t_philo **head);
+void	set_rules(char **av, t_rules *rul);
+void	make_circle(t_philo **head);
+t_philo	*init_philo(char **av, t_rules *rul);
 
 #endif

@@ -1,18 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/20 13:09:37 by abostano          #+#    #+#             */
+/*   Updated: 2024/05/23 12:01:33 by abostano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-int main(int ac, char *av[])
+int	main(int argc, char **argv)
 {
-    philo_t *head;
-    rules rul;
+	t_philo	*head;
+	t_rules	rul;
 
-    if (ac == 5 || ac == 6)
+	if (argc == 5 || argc == 6)
 	{
-        head = init_philo(av, &rul);
-    }
+		head = init_philo(argv, &rul);
+	}
 	else
 	{
-        fprintf(stderr, "Usage: ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
-    }
-
-    return 0;
+		fprintf(stderr, "ERR\n");
+	}
+	return (0);
 }

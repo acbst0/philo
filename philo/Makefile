@@ -1,7 +1,7 @@
 NAME	= philo
 
 FILES	= philo.c \
-			init_s.c \
+			src/init_s.c \
 			utils/ft_atoi.c \
 			utils/error_free.c \
 

@@ -6,11 +6,11 @@
 /*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:04:13 by abostano          #+#    #+#             */
-/*   Updated: 2024/05/28 12:18:34 by abostano         ###   ########.fr       */
+/*   Updated: 2024/05/28 13:47:15 by abostano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 void	add_details(t_philo *new, t_forks *new_fork)
 {

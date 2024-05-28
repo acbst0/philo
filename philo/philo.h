@@ -6,7 +6,7 @@
 /*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:15:36 by abostano          #+#    #+#             */
-/*   Updated: 2024/05/28 12:14:19 by abostano         ###   ########.fr       */
+/*   Updated: 2024/05/28 13:49:28 by abostano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 
 # define ERR_NOF "Philo needs 4 or 5 int\n"
+# define ERR_THRD "Thread error!\n"
 
 typedef struct rules
 {

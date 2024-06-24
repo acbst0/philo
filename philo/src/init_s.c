@@ -34,6 +34,8 @@ void	add_details(t_philo *new, t_forks *new_fork)
 	new->last_thinking = 0;
 	new->last_sleep = 0;
 	new->next = NULL;
+	new->rul = NULL;
+	new->eat_times = 0;
 }
 
 void	add_philo(t_philo **head)
@@ -77,7 +79,7 @@ void	set_rules(char **av, t_rules *rul)
 		rul->per_eat = ft_atoi(av[5]);
 }
 
-void	make_circle(t_philo **head)
+void	make_circle(t_philo **head, t_rules *rul)
 {
 	t_philo	*first;
 	t_philo	*last;
@@ -86,6 +88,8 @@ void	make_circle(t_philo **head)
 	last = *head;
 	while (last->next)
 	{
+		if (last->rul == NULL)
+			last->rul = rul;
 		last = last->next;
 	}
 	first->left = last->right;
@@ -110,6 +114,6 @@ t_philo	*init_philo(char **av, t_rules *rul)
 		add_philo(&head);
 		i++;
 	}
-	make_circle(&head);
+	make_circle(&head, rul);
 	return (head);
 }

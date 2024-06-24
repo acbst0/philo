@@ -4,6 +4,7 @@ FILES	= philo.c \
 			src/init_s.c \
 			utils/ft_atoi.c \
 			utils/error_free.c \
+			src/working.c \
 
 CC	= gcc
 

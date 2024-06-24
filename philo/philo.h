@@ -21,6 +21,10 @@
 
 # define ERR_NOF "Philo needs 4 or 5 int\n"
 # define ERR_THRD "Thread error!\n"
+# define FORK "has taken a fork"
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
 
 typedef struct rules
 {
@@ -34,6 +38,7 @@ typedef struct forks_s
 {
 	int				fork_number;
 	int				status;
+	pthread_mutex_t mutex;
 	struct forks_s	*next;
 	struct forks_s	*prev;
 }	t_forks;
@@ -45,10 +50,12 @@ typedef struct philo_s
 	int				last_eat;
 	int				last_thinking;
 	int				last_sleep;
+	int				eat_times;
 	t_forks			*left;
 	t_forks			*right;
 	struct philo_s	*next;
 	struct philo_s	*prev;
+	t_rules			*rul;
 }	t_philo;
 
 //utils
@@ -59,7 +66,8 @@ void	free_philo_fork(t_philo *head);
 void	add_details(t_philo *new, t_forks *new_fork);
 void	add_philo(t_philo **head);
 void	set_rules(char **av, t_rules *rul);
-void	make_circle(t_philo **head);
+void	make_circle(t_philo **head, t_rules *rul);
 t_philo	*init_philo(char **av, t_rules *rul);
 
+void working(t_philo *head);
 #endif

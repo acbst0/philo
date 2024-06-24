@@ -20,6 +20,12 @@ int	main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 	{
 		head = init_philo(argv, &rul);
+		if (head)
+        {
+            working(head);
+            // İş bitince, bellek sızıntısını önlemek için tüm belleği serbest bırakın.
+            free_philo_fork(head);
+        }
 	}
 	else
 	{

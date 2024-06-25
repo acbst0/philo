@@ -43,6 +43,7 @@ void	eat(t_philo *head)
 
     // Yeme işlemi
     print_status(philo, "is eating");
+	philo->eat_times += 1;
     usleep(philo->rul->time_to_eat * 1000);
 
     // Çatalları bırak
@@ -53,26 +54,29 @@ void	eat(t_philo *head)
     pthread_mutex_unlock(&(philo->right->mutex));
 }
 
-void sleep_and_think(t_philo *philo)
+void ft_sleep(t_philo *philo)
 {
     // Uyuma işlemi
     print_status(philo, "is sleeping");
     usleep(philo->rul->time_to_sleep * 1000);
+}
 
-    // Düşünme işlemi
-    print_status(philo, "is thinking");
+void think(t_philo *philo)
+{
+	print_status(philo, "is thinking");
+	usleep(1000);
 }
 
 void *philosopher_routine(void *arg)
 {
     t_philo *philo = (t_philo *)arg;
 
-    while (500)
+    while (1)
     {
         eat(philo);
-        sleep_and_think(philo);
+        ft_sleep(philo);
+		think(philo);
     }
-
     return (0);
 }
 

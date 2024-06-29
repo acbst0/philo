@@ -56,6 +56,11 @@ typedef struct philo_s
 	struct philo_s	*next;
 	struct philo_s	*prev;
 	t_rules			*rul;
+
+	// Yeni eklenen değişkenler
+    pthread_mutex_t *start_mutex;
+    pthread_cond_t  *start_cond;
+    int             *start_flag;
 }	t_philo;
 
 //utils

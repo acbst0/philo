@@ -21,7 +21,14 @@ void print_status(t_philo *philo, const char *status)
     gettimeofday(&tv, NULL);
     time_in_ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	time_in_ms = time_in_ms - base_time(1);
-    printf("%ld %zu %s\n", time_in_ms, philo->number, status);
+    printf("%ld ms : %zu %s\n", time_in_ms, philo->number, status);
+}
+
+void ft_sleep(t_philo *philo)
+{
+    // Uyuma işlemi
+    print_status(philo, "is sleeping");
+    usleep(philo->rul->time_to_sleep * 1000);
 }
 
 void	eat(t_philo *head)
@@ -52,13 +59,7 @@ void	eat(t_philo *head)
 	philo->right->status = 1;
     pthread_mutex_unlock(&(philo->left->mutex));
     pthread_mutex_unlock(&(philo->right->mutex));
-}
-
-void ft_sleep(t_philo *philo)
-{
-    // Uyuma işlemi
-    print_status(philo, "is sleeping");
-    usleep(philo->rul->time_to_sleep * 1000);
+	ft_sleep(philo);
 }
 
 void think(t_philo *philo)
@@ -71,11 +72,30 @@ void *philosopher_routine(void *arg)
 {
     t_philo *philo = (t_philo *)arg;
 
+	pthread_mutex_lock(philo->start_mutex);
+    while (*(philo->start_flag) == 0)
+    {
+        pthread_cond_wait(philo->start_cond, philo->start_mutex);
+    }
+    pthread_mutex_unlock(philo->start_mutex);
     while (1)
     {
-        eat(philo);
-        ft_sleep(philo);
+		eat(philo);
 		think(philo);
+/* 
+		if ((base_time(1) - philo->last_eat) < philo->rul->time_to_eat)
+		{
+			print_status(philo, "is eating");
+		}
+		else
+		{
+        	if ((base_time(1) - philo->last_eat < philo->rul->time_to_die / 2) || base_time(1) < philo->rul->time_to_die)
+			{
+				eat(philo);
+			}
+			think(philo);
+		}
+		 */
     }
     return (0);
 }
@@ -83,16 +103,38 @@ void *philosopher_routine(void *arg)
 void start_philosophers(t_philo *head)
 {
     t_philo *current;
+    pthread_mutex_t start_mutex = PTHREAD_MUTEX_INITIALIZER;
+    pthread_cond_t start_cond = PTHREAD_COND_INITIALIZER;
+    int start_flag = 0;
+    int num_philosophers = 0;
 
-	current = head;
+    // Philosopher sayısını hesapla
+    current = head;
     do
     {
+        num_philosophers++;
+        current = current->next;
+    } while (current != head);
+
+    // Thread'leri başlat
+    current = head;
+    do
+    {
+        current->start_mutex = &start_mutex;
+        current->start_cond = &start_cond;
+        current->start_flag = &start_flag;
         if (pthread_create(&(current->thread), NULL, philosopher_routine, (void *)current) != 0)
         {
             ft_error(ERR_THRD);
         }
         current = current->next;
     } while (current != head);
+
+    // Thread'leri başlatmak için mutex'i kilitle ve start_flag'i ayarla
+    pthread_mutex_lock(&start_mutex);
+    start_flag = 1;
+    pthread_cond_broadcast(&start_cond);
+    pthread_mutex_unlock(&start_mutex);
 
     // Thread'lerin bitmesini bekle
     current = head;
@@ -101,7 +143,12 @@ void start_philosophers(t_philo *head)
         pthread_join(current->thread, NULL);
         current = current->next;
     } while (current != head);
+
+    // Mutex ve koşul değişkenini yok et
+    pthread_mutex_destroy(&start_mutex);
+    pthread_cond_destroy(&start_cond);
 }
+
 
 void	working(t_philo	*head)
 {

@@ -4,7 +4,8 @@ FILES	= philo.c \
 			src/init_s.c \
 			utils/ft_atoi.c \
 			utils/error_free.c \
-			src/working.c \
+			src/launch.c \
+			src/print_n_time.c \
 
 CC	= gcc
 

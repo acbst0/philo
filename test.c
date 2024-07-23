@@ -3,55 +3,25 @@
 #include <pthread.h>
 #include <unistd.h>
 
-typedef	struct test
+void count(void *num)
 {
-	int number;
-	pthread_t	tr;
-
-}test;
-
-// İş parçacığı fonksiyonlarından biri
-void* print_numbers(void* arg) {
-    for(int i = 0; i < 10; i++) {
-        printf("Sayı: %d\n", i);
-        sleep(1); // Her sayıdan sonra 1 saniye bekle
-    }
-    return NULL;
+	int *in = (int *)num;
+	for (int i = 0; i < 10; i++)
+	{
+		printf("%d\n", *in);
+	}
 }
 
-// Diğer iş parçacığı fonksiyonu
-void* print_hello_world(void* arg) {
-    for(int i = 0; i < 5; i++) {
-        printf("Merhaba Dünya\n");
-        sleep(2); // Her mesajdan sonra 2 saniye bekle
-    }
-    return NULL;
-}
+int main()
+{
+	pthread_t thread1;
+	pthread_t thread2;
 
-int main() {
-    test	*test1;
-	test	*test2;
+	int a = 0;
+	int b = 1;
 
-	test1 = (test *)malloc(sizeof(test));
-	test2 = (test *)malloc(sizeof(test));
-	test1->number = 1;
-	test2->number = 2;
-    // İlk iş parçacığını oluştur
-    if(pthread_create(&test1->tr, NULL, print_numbers, NULL) != 0) {
-        fprintf(stderr, "İş parçacığı oluşturulamadı\n");
-        return 1;
-    }
-
-    // İkinci iş parçacığını oluştur
-    if(pthread_create(&test2->tr, NULL, print_hello_world, NULL) != 0) {
-        fprintf(stderr, "İş parçacığı oluşturulamadı\n");
-        return 1;
-    }
-
-    // İş parçacıklarının bitmesini bekle
-    pthread_join(test1->tr, NULL);
-    pthread_join(test2->tr, NULL);
-
-    printf("Tüm iş parçacıkları tamamlandı\n");
-    return 0;
+	pthread_create(&thread1, NULL, count, (void *) &a);
+	pthread_join(thread1, NULL);
+	pthread_create(&thread2, NULL, count, (void *) &b);
+	pthread_join(thread2, NULL);
 }

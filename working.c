@@ -1,34 +1,14 @@
 #include "../philo.h"
 
-long int base_time(int i)//0 set
-{
-	static long int base;
-	long int	tmp;
-	struct timeval tv;
-
-    gettimeofday(&tv, NULL);
-	tmp = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	if (i == 0)
-		base = tmp;
-	return (base);
-}
-
-void print_status(t_philo *philo, const char *status)
-{
-    struct timeval tv;
-	long int 	time_in_ms;
-
-    gettimeofday(&tv, NULL);
-    time_in_ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	time_in_ms = time_in_ms - base_time(1);
-    printf("%ld ms : %zu %s\n", time_in_ms, philo->number, status);
-}
-
 void ft_sleep(t_philo *philo)
 {
-    // Uyuma işlemi
     print_status(philo, "is sleeping");
     usleep(philo->rul->time_to_sleep * 1000);
+}
+
+void think(t_philo *philo)
+{
+	print_status(philo, "is thinking");
 }
 
 void	eat(t_philo *head)
@@ -54,18 +34,12 @@ void	eat(t_philo *head)
     usleep(philo->rul->time_to_eat * 1000);
 
     // Çatalları bırak
-	
 	philo->left->status = 0;
 	philo->right->status = 1;
     pthread_mutex_unlock(&(philo->left->mutex));
     pthread_mutex_unlock(&(philo->right->mutex));
 	ft_sleep(philo);
-}
-
-void think(t_philo *philo)
-{
-	print_status(philo, "is thinking");
-	usleep(1000);
+	think(philo);
 }
 
 void *philosopher_routine(void *arg)
@@ -78,33 +52,18 @@ void *philosopher_routine(void *arg)
         pthread_cond_wait(philo->start_cond, philo->start_mutex);
     }
     pthread_mutex_unlock(philo->start_mutex);
-    while (1)
+	int i = 0;
+    while (i < 200)
     {
 		eat(philo);
-		think(philo);
-/* 
-		if ((base_time(1) - philo->last_eat) < philo->rul->time_to_eat)
-		{
-			print_status(philo, "is eating");
-		}
-		else
-		{
-        	if ((base_time(1) - philo->last_eat < philo->rul->time_to_die / 2) || base_time(1) < philo->rul->time_to_die)
-			{
-				eat(philo);
-			}
-			think(philo);
-		}
-		 */
-    }
-    return (0);
+		i++;
+	}
+	return (0);
 }
 
 void start_philosophers(t_philo *head)
 {
     t_philo *current;
-    pthread_mutex_t start_mutex = PTHREAD_MUTEX_INITIALIZER;
-    pthread_cond_t start_cond = PTHREAD_COND_INITIALIZER;
     int start_flag = 0;
     int num_philosophers = 0;
 

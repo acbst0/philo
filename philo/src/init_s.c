@@ -28,11 +28,11 @@ void	add_details(t_philo *new, t_forks *new_fork)
 		new_fork->prev = new->prev->right;
 	}
 	new_fork->fork_number = new->number;
+	pthread_mutex_init(&(new_fork->mutex), NULL);
 	new_fork->status = 1;
 	new_fork->next = NULL;
 	new->last_eat = 0;
-	new->last_thinking = 0;
-	new->last_sleep = 0;
+	new->alive = ALIVE;
 	new->next = NULL;
 	new->rul = NULL;
 	new->eat_times = 0;
@@ -70,6 +70,8 @@ void	add_philo(t_philo **head)
 
 void	set_rules(char **av, t_rules *rul)
 {
+	gettimeofday(&(rul->tv), NULL);
+	rul->base_time = (rul->tv.tv_sec * 1000) + (rul->tv.tv_usec / 1000);
 	rul->time_to_die = ft_atoi(av[2]);
 	rul->time_to_eat = ft_atoi(av[3]);
 	rul->time_to_sleep = ft_atoi(av[4]);
@@ -92,6 +94,7 @@ void	make_circle(t_philo **head, t_rules *rul)
 			last->rul = rul;
 		last = last->next;
 	}
+	last->rul = rul;
 	first->left = last->right;
 	last->next = first;
 	first->prev = last;

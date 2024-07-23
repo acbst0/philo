@@ -27,27 +27,41 @@ void	ft_putstr_fd(char *s, int fd)
 	write(fd, s, ft_strlen(s));
 }
 
-void	ft_error(char *str)
+void	ft_error(char *str, t_philo *head)
 {
+	if (head != NULL)
+		free_philo_fork(head);
 	if (str == NULL)
 		ft_putstr_fd("ERROR", 2);
 	else
 		ft_putstr_fd(str, 2);
+	exit(1);
 }
 
 void	free_philo_fork(t_philo *head)
 {
-	t_philo	*tmp;
+	t_rules	*rul;
+	t_forks	*forks;
+	t_philo *tmp;
 
-	while (1)
+	if (!head)
+		return ;
+	while (head->number != 1)
+		head = head->next;
+	tmp = head->prev;
+	rul = head->rul;
+	forks = head->right;
+	while (head != tmp)
 	{
-		tmp = head;
-		free(tmp->right);
-		free(tmp);
-		tmp = NULL;
-		if (head->next != NULL)
-			head = head->next;
-		else
-			break ;
+		head = head->next;
+		free(head->prev);
+		pthread_mutex_destroy(&(forks->mutex));
+		forks = forks->next;
+		free(forks->prev);
 	}
+	pthread_mutex_destroy(&(forks->mutex));
+	free(forks);
+	free(tmp);//head olabilir                                         
+	free(rul);
+	return ;
 }

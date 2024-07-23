@@ -12,24 +12,36 @@
 
 #include "philo.h"
 
+void test_print(t_philo *head)
+{
+	int i = 20;
+	while (1)
+	{
+		printf("<- %ld Philo -> %d Fork ", head->number, head->right->fork_number);
+		head = head->next;
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo	*head;
-	t_rules	rul;
+	t_rules	*rul;
 
 	if (argc == 5 || argc == 6)
 	{
-		head = init_philo(argv, &rul);
+		rul = (t_rules *)malloc(sizeof(t_rules));
+		head = init_philo(argv, rul);
+		//test_print(head);
 		if (head)
         {
-            working(head);
-            // İş bitince, bellek sızıntısını önlemek için tüm belleği serbest bırakın.
+            launch(head);
             free_philo_fork(head);
         }
 	}
 	else
 	{
-		ft_error(ERR_NOF);
+		ft_error(ERR_NOF, NULL);
 	}
 	return (0);
 }

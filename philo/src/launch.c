@@ -70,12 +70,8 @@ void	*bon_appetite(void *arg)
 	}
 }
 
-#include "../philo.h"
-
-// Ana thread fonksiyonu
-void *start_philosophers(void *arg)
+void launch(t_philo *head)
 {
-    t_philo *head = (t_philo *)arg;
     t_philo *current = head;
     int i = 0;
 
@@ -96,19 +92,4 @@ void *start_philosophers(void *arg)
         current = current->next;
         i++;
     }
-
-    return NULL;
-}
-
-void launch(t_philo *head)
-{
-    pthread_t main_thread;
-
-    // Ana thread'i başlat
-    if (pthread_create(&main_thread, NULL, start_philosophers, (void *)head) != 0)
-        ft_error(ERR_THRD_CR, head);
-
-    // Ana thread'in tamamlanmasını bekle
-    if (pthread_join(main_thread, NULL) != 0)
-        ft_error(ERR_THRD, head);
 }

@@ -15,9 +15,10 @@ void print_status(t_philo *philo, const char *status)
 {
 	long int time_in_ms;
 
-	// Pointerların geçerli olup olmadığını kontrol edelim
 	if (philo == NULL || !philo->rul)
 		ft_error(PTR_ERR, philo);
+	pthread_mutex_lock(&(philo->rul->print_mutex));
 	time_in_ms = get_time(philo->rul);
 	printf("%ld ms : %zu %s\n", time_in_ms, philo->number, status);
+	pthread_mutex_unlock(&(philo->rul->print_mutex));
 }

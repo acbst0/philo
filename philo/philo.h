@@ -6,7 +6,7 @@
 /*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:15:36 by abostano          #+#    #+#             */
-/*   Updated: 2024/05/28 13:49:28 by abostano         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:39:31 by abostano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@
 # define ERR_THRD "Thread joining error!\n"
 # define ERR_THRD_CR "Thread creating error!\n"
 # define PTR_ERR "ERROR\n"
+# define FORK "has taken a fork"
 # define EAT "is eating"
 # define SLEEP "is sleeping"
 # define THINK "is thinking"
+# define DEAD "dead"
 # define DIE 0
 # define ALIVE 1
 
@@ -36,6 +38,7 @@ typedef struct rules
 	int				time_to_sleep;
 	int				per_eat;
 	long int		base_time;
+	pthread_mutex_t	print_mutex;
 	struct timeval	tv;
 }	t_rules;
 

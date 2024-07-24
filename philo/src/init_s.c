@@ -6,7 +6,7 @@
 /*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:04:13 by abostano          #+#    #+#             */
-/*   Updated: 2024/05/28 13:47:15 by abostano         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:58:09 by abostano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ void	add_philo(t_philo **head)
 
 void	set_rules(char **av, t_rules *rul)
 {
-	gettimeofday(&(rul->tv), NULL);
-	rul->base_time = (rul->tv.tv_sec * 1000) + (rul->tv.tv_usec / 1000);
+	rul->base_time = 0;
 	rul->time_to_die = ft_atoi(av[2]);
 	rul->time_to_eat = ft_atoi(av[3]);
 	rul->time_to_sleep = ft_atoi(av[4]);
+	pthread_mutex_init(&(rul->print_mutex), NULL);
 	if (av[5] == NULL)
 		rul->per_eat = -1;
 	else

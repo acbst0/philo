@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   launch.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/24 18:28:20 by abostano          #+#    #+#             */
+/*   Updated: 2024/07/24 19:10:01 by abostano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philo.h"
 
 void	ft_sleep(t_philo *phi, unsigned long time)
@@ -10,55 +22,6 @@ void	ft_sleep(t_philo *phi, unsigned long time)
 			return ;
 }
 
-int		checkdie(t_philo *philo)
-{
-	t_rules	*rul;
-
-	rul = philo->rul;
-	if ((get_time(rul) - philo->last_eat) >= rul->time_to_die)
-		return (DIE);
-	return (ALIVE);
-}
-
-void ssleep(t_philo *philo)
-{
-	if (philo == NULL)
-		ft_error(PTR_ERR, philo);
-    print_status(philo, "is sleeping");
-    ft_sleep(philo, philo->rul->time_to_sleep);
-}
-
-void think(t_philo *philo)
-{
-	if (philo == NULL)
-		ft_error(PTR_ERR, philo);
-	print_status(philo, "is thinking");
-}
-
-void	eat(t_philo *head)
-{
-	t_philo *philo;
-
-	philo = head;
-	pthread_mutex_lock(&(philo->left->mutex));
-	pthread_mutex_lock(&(philo->right->mutex));
-    print_status(philo, FORK);
-    print_status(philo, FORK);
-
-    // Yeme işlemi
-	philo->eat_times += 1;
-	philo->last_eat = get_time(philo->rul);
-    print_status(philo, EAT);
-    ft_sleep(philo, philo->rul->time_to_eat);
-
-    // Çatalları bırak
-    pthread_mutex_unlock(&(philo->left->mutex));
-    pthread_mutex_unlock(&(philo->right->mutex));
-
-	ssleep(philo);
-	think(philo);
-}
-
 void	*bon_appetite(void *arg)
 {
 	t_philo	*phi;
@@ -69,38 +32,36 @@ void	*bon_appetite(void *arg)
 	while (1)
 	{
 		pthread_mutex_lock(&(phi->rul->print_mutex));
-		if (checkdie(phi) == DIE)
-		{
-			printf("%ld ms : %zu %s\n", get_time(phi->rul), phi->number, DEAD);
-			free_philo_fork(phi);
-			exit(1);
-		}
+		checkdie(phi);
+		checkeattimes(phi);
 		pthread_mutex_unlock(&(phi->rul->print_mutex));
 		eat(phi);
 	}
 }
 
-void launch(t_philo *head)
+void	launch(t_philo *head)
 {
-    t_philo *current = head;
-    int i = 0;
+	t_philo	*current;
+	int		i;
 
+	current = head;
+	i = 0;
 	head->rul->base_time = get_time(head->rul);
-    while (current->number > current->prev->number || i == 0)
-    {
-        if (pthread_create(&(current->thread), NULL, bon_appetite, (void *)current) != 0)
-            ft_error(ERR_THRD_CR, head);
-        current = current->next;
-        i++;
-    }
-
-    current = head;
-    i = 0;
-    while (current->number > current->prev->number || i == 0)
-    {
-        if (pthread_join(current->thread, NULL) != 0)
-            ft_error(ERR_THRD, head);
-        current = current->next;
-        i++;
-    }
+	while (current->number > current->prev->number || i == 0)
+	{
+		if (pthread_create(&(current->thread), NULL,
+				bon_appetite, (void *)current) != 0)
+			ft_error(ERR_THRD_CR, head);
+		current = current->next;
+		i++;
+	}
+	current = head;
+	i = 0;
+	while (current->number > current->prev->number || i == 0)
+	{
+		if (pthread_join(current->thread, NULL) != 0)
+			ft_error(ERR_THRD, head);
+		current = current->next;
+		i++;
+	}
 }

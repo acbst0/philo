@@ -1,11 +1,13 @@
 NAME	= philo
 
 FILES	= philo.c \
-			src/init_s.c \
+			src/init.c \
+			src/do_that.c \
+			src/launch.c \
+			src/checking.c \
 			utils/ft_atoi.c \
 			utils/error_free.c \
-			src/launch.c \
-			src/print_n_time.c \
+			utils/print_n_time.c \
 
 CC	= gcc
 

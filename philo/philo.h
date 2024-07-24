@@ -6,7 +6,7 @@
 /*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:15:36 by abostano          #+#    #+#             */
-/*   Updated: 2024/07/24 12:39:31 by abostano         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:33:36 by abostano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct forks_s
 {
 	int				fork_number;
 	int				status;
-	pthread_mutex_t mutex;
+	pthread_mutex_t	mutex;
 	struct forks_s	*next;
 	struct forks_s	*prev;
 }	t_forks;
@@ -65,21 +65,27 @@ typedef struct philo_s
 	t_rules			*rul;
 }	t_philo;
 
-//utils
-int		ft_atoi(const char *str);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_error(char *str, t_philo *head);
-void	free_philo_fork(t_philo *head);
-//init
-void	add_details(t_philo *new, t_forks *new_fork);
-void	add_philo(t_philo **head);
-void	set_rules(char **av, t_rules *rul);
-void	make_circle(t_philo **head, t_rules *rul);
-t_philo	*init_philo(char **av, t_rules *rul);
-//print_n_time
-long int get_time(t_rules *rules);
-void print_status(t_philo *philo, const char *status);
-void launch(t_philo *head);
+int			ft_atoi(const char *str);
+void		ft_putstr_fd(char *s, int fd);
+void		ft_error(char *str, t_philo *head);
+void		free_philo_fork(t_philo *head);
 
-void working(t_philo *head);
+void		add_details(t_philo *new, t_forks *new_fork);
+void		add_philo(t_philo **head);
+void		set_rules(char **av, t_rules *rul);
+void		make_circle(t_philo **head, t_rules *rul);
+t_philo		*init_philo(char **av, t_rules *rul);
+
+long int	get_time(t_rules *rules);
+void		print_status(t_philo *philo, const char *status);
+
+void		checkdie(t_philo *philo);
+void		checkeattimes(t_philo *head);
+
+void		ft_sleep(t_philo *phi, unsigned long time);
+void		launch(t_philo *head);
+
+void		ssleep(t_philo *philo);
+void		think(t_philo *philo);
+void		eat(t_philo *head);
 #endif

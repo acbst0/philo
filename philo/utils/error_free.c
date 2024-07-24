@@ -6,7 +6,7 @@
 /*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 12:03:21 by abostano          #+#    #+#             */
-/*   Updated: 2024/07/24 11:57:10 by abostano         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:40:05 by abostano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	free_philo_fork(t_philo *head)
 {
 	t_rules	*rul;
 	t_forks	*forks;
-	t_philo *tmp;
+	t_philo	*tmp;
 
 	if (!head)
 		return ;
@@ -61,7 +61,7 @@ void	free_philo_fork(t_philo *head)
 	}
 	pthread_mutex_destroy(&(forks->mutex));
 	free(forks);
-	free(tmp);//head olabilir                                         
+	free(tmp);
 	pthread_mutex_destroy(&(rul->print_mutex));
 	free(rul);
 	return ;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_s.c                                           :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:04:13 by abostano          #+#    #+#             */
-/*   Updated: 2024/07/24 11:58:09 by abostano         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:55:59 by abostano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ void	add_philo(t_philo **head)
 	new_fork = (t_forks *)malloc(sizeof(t_forks));
 	new = (t_philo *)malloc(sizeof(t_philo));
 	if (!new || !new_fork)
-	{
-		fprintf(stderr, "Memory allocation failed\n");
-		exit(1);
-	}
+		ft_error("Memory allocation failed\n", NULL);
 	new->right = new_fork;
 	if (tmp == NULL)
 	{

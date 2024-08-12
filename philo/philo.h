@@ -6,7 +6,7 @@
 /*   By: abostano <abostano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:15:36 by abostano          #+#    #+#             */
-/*   Updated: 2024/07/24 18:33:36 by abostano         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:34:46 by abostano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ typedef struct forks_s
 	int				fork_number;
 	int				status;
 	pthread_mutex_t	mutex;
-	struct forks_s	*next;
-	struct forks_s	*prev;
+	struct forks_s	new
 }	t_forks;
 
 typedef struct philo_s

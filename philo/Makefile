@@ -11,7 +11,7 @@ FILES	= philo.c \
 
 CC	= gcc
 
-FLAG	= -Wall -Wextra -Werror
+FLAG	= -Wall -Wextra -Werror -fsanitize=thread -g
 
 OFILES	= $(FILES:.c=.o)
 

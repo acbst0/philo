@@ -9,6 +9,7 @@ FILES	= src/checking.c \
 			src/printing.c \
 			src/to_do.c \
 			utils/ft_atoi.c \
+			utils/ft_strcmp.c \
 
 CC	= gcc
 

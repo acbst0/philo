@@ -3,9 +3,16 @@
 void	print_status(t_philo *philo, const char *txt)
 {
 	long int	time_in_ms;
+	t_rules		*rul;
 
-	pthread_mutex_lock(&(philo->rul->print_mutex));
-	time_in_ms = get_time_ms(philo->rul);
+	rul = philo->rul;
+	pthread_mutex_lock(&(rul->print_mutex));
+	time_in_ms = get_time_ms(rul);
+	if (rul->alive == DEAD && ft_strcmp(txt, "died") != 0)
+	{
+		pthread_mutex_unlock(&(rul->print_mutex));
+		return;
+	}
 	printf("%ld ms : %zu %s\n", time_in_ms, philo->number, txt);
-	pthread_mutex_unlock(&(philo->rul->print_mutex));
+	pthread_mutex_unlock(&(rul->print_mutex));
 }

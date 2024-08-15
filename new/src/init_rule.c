@@ -16,4 +16,5 @@ t_rules	*init_rule(int ac, char **av)
 	pthread_mutex_init(&(rul->print_mutex), NULL);
 	rul->alive = ALIVE;
 	rul->base_time = 0;
+	return (rul);
 }

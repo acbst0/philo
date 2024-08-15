@@ -30,5 +30,6 @@ t_philo	**init_philo(t_rules *rul)
 		i++;
 	}
 	philo[i] = NULL;
+	rul->philos = philo;
 	return (philo);
 }

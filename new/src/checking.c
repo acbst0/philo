@@ -17,22 +17,20 @@ int	is_dead(t_philo *philo)
 	return (ALIVE);
 }
 
-int	check_all_philos_ate(t_philo **philos)
+int check_all_philos_ate(t_philo **philos)
 {
-	int i;
-	int total_philos;
-	t_rules *rul;
+    int i;
+    t_rules *rul;
 
-	rul = philos[0]->rul;
-	i = 0;
-	if (rul->et == -1)
-		return (ALIVE);
-	while (i < rul->nop)
-	{
-		if (philos[i]->eat_times >= rul->et)
-			i++;
-		else
-			return (ALIVE);
-	}
-	return (ALLEAT);
+    rul = philos[0]->rul;
+    if (rul->et == -1)
+        return (ALIVE);
+    i = 0;
+    while (i < rul->nop)
+    {
+        if (philos[i]->eat_times < rul->et)
+            return (ALIVE);
+        i++;
+    }
+    return (ALLEAT);
 }

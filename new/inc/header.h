@@ -22,6 +22,7 @@ typedef struct rules
 	long int		base_time;
 	int				alive;
 	pthread_mutex_t	print_mutex;
+	struct philo_s	**philos;
 }	t_rules;
 
 typedef struct philo_s
